@@ -4,7 +4,7 @@
 #
 Name     : pysnmp
 Version  : 4.3.0
-Release  : 18
+Release  : 19
 URL      : https://pypi.python.org/packages/source/p/pysnmp/pysnmp-4.3.0.tar.gz
 Source0  : https://pypi.python.org/packages/source/p/pysnmp/pysnmp-4.3.0.tar.gz
 Summary  : SNMP library for Python
