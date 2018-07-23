@@ -1,6 +1,217 @@
 
-Revision 4.3.0, work in progress
---------------------------------
+Revision 4.4.4, released 2018-01-03
+-----------------------------------
+
+- Copyright notice extended to the year 2018
+- Fixed short local key expansion at 3DES key localization
+  implementation.
+
+Revision 4.4.3, released 2017-12-22
+-----------------------------------
+
+- Migrated references from SourceForge
+- Added missing SHA2 support for Blumenthal key localization
+- Fixed named bits handling at rfc1902.Bits
+- Fixed missing SmiError exception class at pysnmp.proto.rfc1155
+- Fixed SNMP v1->v2c PDU proxy -- error-status & error-index fields
+  from v1 PDU get copied over to v2c PDU in addition to the exception
+  sentinels being set
+
+Revision 4.4.2, released 2017-11-11
+-----------------------------------
+
+- The pysnmp version being used gets exposed to the MIB modules
+  via the `MibBuilder` instance
+- The .setObjects() method of the SMI types now accepts
+  `append=False` parameter to let the caller adding more
+  than 255 elements over the course of multiple calls
+- Added support for some more missing fields of SMIv2 MACRO types
+- Example scripts rearranged in a way that IPv6 requirement is
+  clearly encoded in the script's name
+- Fixed SNMPv2-SMI.NotificationType to expose .set/getReference()
+  instead of .set/getRevision() which should not be there in the
+  first place
+- Fixed non-implied-OID encoding in SNMP table indices
+- Fixed inconsistent SNMPv3 discovery and retrying algorithm
+
+Revision 4.4.1, released 2017-10-23
+-----------------------------------
+
+- HMAC-SHA-2 Authentication Protocols support added (RFC-7860)
+- The pycryptodome dependency replaced with pycryptodomex as
+  it is recommended by the upstream to avoid unwanted interference
+  with PyCrypto package should it also be installed
+- Sphinx theme changed to Alabaster in the documentation
+- Minor adjustments towards pyasn1 0.4.x compatibility
+- Fixed ObjectIdentifier-into-ObjectIdentity casting at
+  rfc1902.ObjectType MIB resolution harness
+- Fixed NetworkAddress object handling in SNMP table indices
+- Fixed MIB lookup by module:object.indices MIB object with
+  InetAddressIPv{4,6} objects being in the index
+- Fixed non-translated PDU being retries at CommandGenerator what
+  leads to wrong PDU version being sent and even a crash on
+  incompatible PDU/SNMP message combination
+
+Revision 4.3.10, released 2017-10-06
+------------------------------------
+
+- Refactored partial SNMP message decoding to make it less dependent
+  on unpublished pyasn1 API features.
+- Fix to MibTableRow.setFromName() to keep the input parameter type when
+  it propagates to the return value. Before this fix
+  ObjectIdentity.prettyPrint() may crash when rendering malformed SNMP
+  table indices.
+- Fixed NotificationReceiver to include SNMPv1 TRAP Message community
+  string into SNMPv2c/v3 TRAP PDU
+- Fixed multiple bugs in SNMP table indices rendering, especially
+  the InetAddressIPv6 type which was severely broken.
+- Fixed crashing Bits.prettyPrint() implementation
+- Fixed crashing Bits.clone()/subtype() implementation
+- Fixed leaking exceptions bubbling up from the asyncio and Twisted adapters
+
+Revision 4.3.9, released 2017-07-26
+-----------------------------------
+
+- Deprecated UsmUserData initializaton parameters removed
+- Adapted to pyasn1 API changes introduced by release 0.3.1
+- Fix to a crash happening on inbound SNMP message having non-initialized fields
+- Fix to (persistent SNMP engine ID) file writing on Windows
+
+Revision 4.3.8, released 2017-06-15
+-----------------------------------
+
+- Security fix to the bug introduced in 4.3.6: msgAuthoritativeEngineTime
+  stopped changing over time and was returning the same timestamp (process
+  start time). This fix makes it growing as it should.
+
+Revision 4.3.7, released 2017-05-29
+-----------------------------------
+
+* Fixed import error in legacy NotificationOriginator implementation
+
+Revision 4.3.6, released 2017-05-28
+-----------------------------------
+
+- More instrumentation hooks added addressing security failures
+  auditing needs.
+- SNMP table indices correlation implemented within SMI framework.
+  The opaque InetAddress type implemented. INET-ADDRESS-MIB included
+  into the distribution.
+- SNMP table indices resolution logic made more robust against
+  malformed indices.
+- Fixes to *lexicographicMode* option documentation to make it
+  unambiguous.
+- The `ErrorIndication` object is now derived from `Exception` so
+  that it could be raised in exceptions.
+- The `errorIndication` values produced by various parts of
+  SNMP engine unified to be `ErrorIndication` instances. This fixes
+  an issue with Twisted.
+- Embedded MIB modules rebuilt with the latest pysmi adding previously
+  missing attributes like `status`, `description` etc.
+- Fixed potential SNMP engine crash on handling incoming message
+  at unsupported security level
+
+Revision 4.3.5, released 2017-03-24
+-----------------------------------
+
+- The getNext() and getBulk() calls of Twisted interface.
+  now support ignoreNonIncreasingOid option.
+- TextualConvention is now a new-style class.
+- Fix to accidentally reset error-status when building confirmed class
+  SNMPv1 PDU.
+- Fix to possible infinite recursion in TextualConvention.prettyIn().
+- Fixed crash when attempting to report unsupported request/notification
+  PDU back to sender.
+
+Revision 4.3.4, released 2017-03-01
+-----------------------------------
+
+- Fix to low-level SNMP API example to accommodate changed pyasn1
+  SEQUENCE supporting iterator protocol.
+- The pyasn1 version dependency bumped (0.2.3), SEQUENCE/SEQUENCE OF
+  API calls adjusted to accommodate changed pyasn1 API (in part
+  of .setComponentBy*() kw flags).
+- Fixed crash on SNMP engine's invalid message counter increment.
+
+Revision 4.3.3, released 2017-02-04
+-----------------------------------
+
+- Switched from now unmaintained PyCrypto to PyCryptodome.
+- Switched to new-style classes.
+- NotificationType now allows additional var-binds specified as
+  MIB objects. A side effect of this change is that additional
+  var-binds can only be added prior to .resolveMibObjects() is
+  run.
+- Non-standard (but apparently used by many vendors) Reeder AES192/256
+  key localization algorithm implemented and set as default for
+  usmAesCfb192Protocol and usmAesCfb256Protocol identifiers.
+  Original and more standard implementation can still be used
+  with the usmAesBlumenthalCfb192Protocol and
+  usmAesBlumenthalCfb192Protocol IDs respectively.
+- TextualConvention.prettyOut() improved to produce prettier and
+  more SMI-compliant output.
+- TextualConvention.prettyIn() implemented to handle DISPLAY-HINT
+  based value parsing.
+- Fix to NotificationType to make additional var-binds overriding
+  MIB objects implicitly included through NOTIFICATION-TYPE OBJECTS.
+- Fix to SNMP engine boots counter persistence on Python 3.
+- Fix to Pythonized MIBs loading when only .pyc files are
+  present (e.g. py2exe/cx_freeze environments).
+- Fix broken 3DES key localization and encryption procedures.
+- Updated IP address for demo.snmplabs.com in examples.
+- Missing index added to bundled RFC1213::atEntry MIB table.
+- Twisted integration made Python3 compatible.
+- Accommodated ASN.1 SEQUENCE iteration rules change in upcoming pyasn1 version.
+- Author's email changed, copyright extended to 2017.
+
+Revision 4.3.2, released 2016-02-12
+-----------------------------------
+
+- Copyright notice added to non-trivial source code files.
+- SNMP table row consistency check added. This change may break
+  valid SNMP SET operations on tables if RowStatus column is not
+  passed at the very end of var-binds.
+- All SNMP counters now incremented via '+= 1' rather than 'x = x + 1'
+  to simplify their tracking by third-party code.
+- Notification originator examples re-pointed to Notification Receiver
+  at demo.snmplabs.com.
+- Two more execution observer points added: rfc2576.processIncomingMsg
+  and rfc3414.processIncomingMsg to give an insignt on security modules
+  internals.
+- TEXTUAL-CONVENTION's DISPLAY-HINT text formatting reworked for better
+  performance and encoding accurancy of 'a' and 't' formats.
+- WARNING: security fix to USM - extra user entry clone removed on
+  incoming message processing. It made USM accepting SNMPv3 TRAPs
+  from unknown SNMP engine IDs.
+- Fix to snmpInvalidMsgs and snmpUnknownSecurityModels MIB symbols
+  import at SNMPv3 MP model.
+- Fix to NotificationOriginator to cope with unspecified user callable.
+- Fix to OctetString.prettyOut() to pretty-print Python 3 bytes without
+  'b' qualifier.
+- Fix to better pysmi import errors handling.
+- Fix to missing next() in Python 2.5 at pysnmp.hlapi
+
+Revision 4.3.1, released 2015-11-12
+-----------------------------------
+
+- Added recursive resolution of ObjectIdentifier values at ObjectType
+  by converting it to ObjectIdentity.
+- A bunch of convenience shortcuts to rfc1902.ObjectIdentity added
+  from rfc1902.ObjectType and rfc1902.NotificationType
+  (.addAsn1MibSource(), .addMibSource(), .loadMibs())
+- When pretty printing indices at rfc1902.ObjectType, quote only strings.
+- SNMP overview and PySNMP hlapi tutorial added to documentation.
+- Fix to __doc__ use in setup.py to make -O0 installation mode working.
+- Fix to ObjectIdentity->ObjectIdentifier attributes handover
+- Fixed crash at oneliner compatibility code on EOM response.
+- Fixed crash in hlapi.transport module.
+- Fixed OID resolution issues that roots at node 0 and 2.
+- Fix to MIB builder to fail gracefully on corrupted MIB package encounter.
+- Fix to docs distribution -- now the are Sphinx-buildable out-of-the-box.
+- Source code re-linted
+
+Revision 4.3.0, released 2015-09-28
+-----------------------------------
 
 - Critical error fixed in key localization procedure for AES192/AES256/3DES
   cyphers. Previous versions might never worked properly in this respect.
