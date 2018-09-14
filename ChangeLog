@@ -1,4 +1,19 @@
 
+Revision 4.4.6, released 2018-09-13
+-----------------------------------
+
+- Improved package build and dependency tracking
+- Fixed missing LICENSE from the tarball distribution
+- Fixed `CommandGeneratorLcdConfigurator.unconfigure()` to fully clean up
+  internal caches, otherwise repetitive attempts to configure the target
+  would fail.
+- Fix to tolerate possible duplicate enumerations in `Bits` and `Integer`
+  SMI types.
+- Fix to tolerate non-initialised entries in SNMP community table. Once a
+  bad entry sneaked into the SNMP community table, all the subsequent
+  SNMP v1/v2c operations failed. The fix ignores incomplete SNMP community
+  table entries in the course of building indices.
+
 Revision 4.4.5, released 2018-08-05
 -----------------------------------
 
