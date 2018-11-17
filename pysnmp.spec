@@ -4,15 +4,15 @@
 #
 Name     : pysnmp
 Version  : 4.4.6
-Release  : 24
+Release  : 25
 URL      : https://files.pythonhosted.org/packages/8b/66/96a49bf1d64ad1e005a8455644523b7e09663a405eb20a4599fb219e4c95/pysnmp-4.4.6.tar.gz
 Source0  : https://files.pythonhosted.org/packages/8b/66/96a49bf1d64ad1e005a8455644523b7e09663a405eb20a4599fb219e4c95/pysnmp-4.4.6.tar.gz
 Summary  : SNMP library for Python
 Group    : Development/Tools
 License  : BSD-2-Clause BSD-3-Clause
-Requires: pysnmp-python3
-Requires: pysnmp-license
-Requires: pysnmp-python
+Requires: pysnmp-license = %{version}-%{release}
+Requires: pysnmp-python = %{version}-%{release}
+Requires: pysnmp-python3 = %{version}-%{release}
 Requires: pyasn1
 BuildRequires : buildreq-distutils3
 
@@ -32,7 +32,7 @@ license components for the pysnmp package.
 %package python
 Summary: python components for the pysnmp package.
 Group: Default
-Requires: pysnmp-python3
+Requires: pysnmp-python3 = %{version}-%{release}
 
 %description python
 python components for the pysnmp package.
@@ -55,14 +55,14 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1536897118
-python3 setup.py build -b py3
+export SOURCE_DATE_EPOCH=1542484730
+python3 setup.py build
 
 %install
 rm -rf %{buildroot}
-mkdir -p %{buildroot}/usr/share/doc/pysnmp
-cp LICENSE.rst %{buildroot}/usr/share/doc/pysnmp/LICENSE.rst
-python3 -tt setup.py build -b py3 install --root=%{buildroot}
+mkdir -p %{buildroot}/usr/share/package-licenses/pysnmp
+cp LICENSE.rst %{buildroot}/usr/share/package-licenses/pysnmp/LICENSE.rst
+python3 -tt setup.py build  install --root=%{buildroot}
 echo ----[ mark ]----
 cat %{buildroot}/usr/lib/python3*/site-packages/*/requires.txt || :
 echo ----[ mark ]----
@@ -71,8 +71,8 @@ echo ----[ mark ]----
 %defattr(-,root,root,-)
 
 %files license
-%defattr(-,root,root,-)
-/usr/share/doc/pysnmp/LICENSE.rst
+%defattr(0644,root,root,0755)
+/usr/share/package-licenses/pysnmp/LICENSE.rst
 
 %files python
 %defattr(-,root,root,-)
