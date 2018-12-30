@@ -1,4 +1,26 @@
 
+Revision 4.4.8, released 2018-12-30
+-----------------------------------
+
+- Fixed Pythonized MIB load (in the source form) - made sure to turn
+  it into a code object prior to its execution
+
+Revision 4.4.7, released 2018-12-29
+-----------------------------------
+
+- Copyright notice extended to the year 2019
+- Exposed ASN.1 `Null` type through `rfc1902` module for convenience.
+- Use `compile()` before `exec`'ing MIB modules to attach filename to
+  the stack frames (ultimately shown in traceback/debugger)
+- Fixed hlapi/v3arch transport target caching to ensure transport targets
+  are different even if just timeout/retries options differ
+- Fixed hlapi LCD configurator to include `contextName`. Prior to this fix
+  sending SNMPv3 TRAP with non-default `contextName` would fail.
+- Fixed possible duplicate key occurrence in the `OrderedDict` following
+  a race condition
+- Fixed undefined name references in `inet_pton`/`inet_ntop` substitute
+  routines for IPv6 in `TRANSPORT-ADDRESS-MIB.py`
+
 Revision 4.4.6, released 2018-09-13
 -----------------------------------
 
