@@ -1,5 +1,5 @@
 PKG_NAME := pysnmp
-URL = https://files.pythonhosted.org/packages/95/e4/f4c4da5d54e984a28a26dae1cbf6695e154cfd0dbc420d7f8d12b1e62719/pysnmp-4.4.11.tar.gz
+URL = https://files.pythonhosted.org/packages/4e/75/72f64c451bf5884715f84f8217b69b4025da0b67628d611cd14a5b7db217/pysnmp-4.4.12.tar.gz
 ARCHIVES = 
 
 include ../common/Makefile.common
